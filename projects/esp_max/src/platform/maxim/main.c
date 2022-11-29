@@ -60,7 +60,6 @@
 #include "tcp_socket.h"
 
 // The default baudrate iio_app will use to print messages to console.
-#define UART_BAUDRATE_DEFAULT	115200
 #define PRINT_ERR_AND_RET(msg, ret) do {\
 	printf("%s - Code: %d (-0x%x) \n", msg, ret, ret);\
 	return ret;\
@@ -137,7 +136,7 @@ int main()
 		/* TODO: remove this ifdef when asynchrounous rx is implemented on every platform. */
 		.irq_id = UART_IRQ_ID,
 		.asynchronous_rx = true,
-		.baud_rate = UART_BAUDRATE_DEFAULT,
+		.baud_rate = UART_BAUDRATE,
 		.size = NO_OS_UART_CS_8,
 		.parity = NO_OS_UART_PAR_NO,
 		.stop = NO_OS_UART_STOP_1_BIT,

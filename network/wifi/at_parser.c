@@ -420,7 +420,7 @@ dummy_read:
 /* Handle the uart read done */
 static void at_callback_rd_done(struct at_desc *desc)
 {
-	static const struct at_buff ready_msg = {PUI8("ready"), 5};
+	static const struct at_buff ready_msg = {PUI8("DISCONNECT"), 7};
 
 	switch (desc->callback_operation) {
 	case RESETTING_MODULE:
@@ -1000,8 +1000,8 @@ int32_t at_init(struct at_desc **desc, const struct at_init_param *param)
 	/* The read will be handled by the callback */
 	no_os_uart_read_nonblocking(ldesc->uart_desc, &ldesc->read_ch, 1);
 
-	if (at_run_cmd(ldesc, AT_RESET, AT_EXECUTE_OP, NULL))
-		goto free_irq;
+	// if (at_run_cmd(ldesc, AT_RESET, AT_EXECUTE_OP, NULL))
+	// 	goto free_irq;
 
 	/* Disable echoing response */
 	if (0 != stop_echo(ldesc))

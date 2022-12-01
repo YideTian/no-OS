@@ -420,7 +420,7 @@ dummy_read:
 /* Handle the uart read done */
 static void at_callback_rd_done(struct at_desc *desc)
 {
-	static const struct at_buff ready_msg = {PUI8("DISCONNECT"), 10};
+	static const struct at_buff ready_msg = {PUI8("ready"), 5};
 
 	switch (desc->callback_operation) {
 	case RESETTING_MODULE:
@@ -795,11 +795,13 @@ static int32_t handle_special(struct at_desc *desc, enum at_cmd cmd)
 {
 	uint32_t timeout;
 	int ret;
-
+	
 	switch (cmd) {
 	case AT_RESET:
 		desc->callback_operation = RESETTING_MODULE;
 		no_os_uart_write(desc->uart_desc, desc->cmd.buff, desc->cmd.len);
+
+
 		timeout = MODULE_TIMEOUT;
 		do {
 			/* Wait for "ready" message */

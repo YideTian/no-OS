@@ -52,6 +52,7 @@
 #include "mqtt_client.h"
 #include "ade9430.h"
 
+#include "az_iot_hub_client.h"
 #include "maxim_gpio.h"
 #include "maxim_uart.h"
 #include "maxim_irq.h"
@@ -68,6 +69,17 @@
 	return ret;\
 } while (0)
 
+az_iot_hub_client my_client;
+static az_span my_iothub_hostname = AZ_SPAN_LITERAL_FROM_STR("contoso.azure-devices.net");
+static az_span my_device_id = AZ_SPAN_LITERAL_FROM_STR("contoso_device");
+ 
+// Make sure to size the buffer to fit the client id (16 is an example)
+static char my_mqtt_client_id[16];
+static size_t my_mqtt_client_id_length;
+ 
+// Make sure to size the buffer to fit the username (128 is an example)
+static char my_mqtt_user_name[128];
+static size_t my_mqtt_user_name_length;
 
 
 int32_t read_and_send(struct mqtt_desc *mqtt, struct ade9430_dev *dev)
@@ -121,6 +133,22 @@ int main()
 	int i = 0;
 	int status;
 	char buf[200];
+
+	az_iot_hub_client_options options = az_iot_hub_client_options_default();
+ 
+	// // Initialize the hub client with hostname, device id, and default connection options.
+	// az_iot_hub_client_init(&my_client, my_iothub_hostname, my_device_id, &options);
+	
+	// // Get the MQTT client id used for the MQTT connection.
+	// az_iot_hub_client_get_client_id(
+	// &my_client, my_mqtt_client_id, sizeof(my_mqtt_client_id),  &my_mqtt_client_id_length);
+	
+	// // Get the MQTT user name to connect.
+	// az_iot_hub_client_get_user_name(
+	// &my_client, my_mqtt_user_name, sizeof(my_mqtt_user_name), &my_mqtt_user_name_length);
+	
+	// At this point you are free to use my_mqtt_client_id and my_mqtt_user_name to connect using
+	// your MQTT client.
 
 	struct max_spi_init_param spi_extra_ip  = {
 		.numSlaves = 1,

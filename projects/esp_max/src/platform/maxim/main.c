@@ -70,8 +70,8 @@
 } while (0)
 
 az_iot_hub_client my_client;
-static az_span my_iothub_hostname = AZ_SPAN_LITERAL_FROM_STR("contoso.azure-devices.net");
-static az_span my_device_id = AZ_SPAN_LITERAL_FROM_STR("contoso_device");
+static az_span my_iothub_hostname = AZ_SPAN_LITERAL_FROM_STR("iot-hub-pun3bk4utuxzs.azure-devices.net");
+static az_span my_device_id = AZ_SPAN_LITERAL_FROM_STR("EnergyMonitoringDevice1");
  
 // Make sure to size the buffer to fit the client id (16 is an example)
 static char my_mqtt_client_id[16];
@@ -136,16 +136,16 @@ int main()
 
 	az_iot_hub_client_options options = az_iot_hub_client_options_default();
  
-	// // Initialize the hub client with hostname, device id, and default connection options.
-	// az_iot_hub_client_init(&my_client, my_iothub_hostname, my_device_id, &options);
+	// Initialize the hub client with hostname, device id, and default connection options.
+	az_iot_hub_client_init(&my_client, my_iothub_hostname, my_device_id, &options);
 	
-	// // Get the MQTT client id used for the MQTT connection.
-	// az_iot_hub_client_get_client_id(
-	// &my_client, my_mqtt_client_id, sizeof(my_mqtt_client_id),  &my_mqtt_client_id_length);
+	// Get the MQTT client id used for the MQTT connection.
+	az_iot_hub_client_get_client_id(
+	&my_client, my_mqtt_client_id, sizeof(my_mqtt_client_id),  &my_mqtt_client_id_length);
 	
-	// // Get the MQTT user name to connect.
-	// az_iot_hub_client_get_user_name(
-	// &my_client, my_mqtt_user_name, sizeof(my_mqtt_user_name), &my_mqtt_user_name_length);
+	// Get the MQTT user name to connect.
+	az_iot_hub_client_get_user_name(
+	&my_client, my_mqtt_user_name, sizeof(my_mqtt_user_name), &my_mqtt_user_name_length);
 	
 	// At this point you are free to use my_mqtt_client_id and my_mqtt_user_name to connect using
 	// your MQTT client.
@@ -342,8 +342,8 @@ int main()
 	conn_config = (struct mqtt_connect_config) {
 		.version = MQTT_CONFIG_VERSION,
 		.keep_alive_ms = MQTT_CONFIG_KEEP_ALIVE,
-		.client_name = MQTT_CONFIG_CLIENT_NAME,
-		.username = MQTT_CONFIG_CLI_USER,
+		.client_name = my_mqtt_client_id,
+		.username = my_mqtt_user_name,
 		.password = MQTT_CONFIG_CLI_PASS
 	};
 
